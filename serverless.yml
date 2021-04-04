@@ -30,3 +30,6 @@ functions:
       - http:
           path: hello
           method: get
+
+resources:
+  - ${file(resources/dynamodb.yml)}
