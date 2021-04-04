@@ -58,5 +58,12 @@ functions:
           path: notes/{id}
           method: get
 
+  list:
+    handler: functions/list.main
+    events:
+      - http:
+          path: notes
+          method: get
+
 resources:
   - ${file(resources/dynamodb.yml)}
