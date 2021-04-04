@@ -44,19 +44,19 @@ provider:
         - !Sub "${TodosTable.Arn}/index/*"
 
 functions:
-  hello:
-    handler: handler.hello
-    events:
-      - http:
-          path: hello
-          method: get
-
   create:
     handler: functions/create.main
     events:
       - http:
           path: notes
           method: post
+
+  get:
+    handler: functions/get.main
+    events:
+      - http:
+          path: notes/{id}
+          method: get
 
 resources:
   - ${file(resources/dynamodb.yml)}
