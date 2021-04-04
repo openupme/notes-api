@@ -22,6 +22,26 @@ provider:
   #
   #environment:
   #  SAMPLE_ENV_VAR: ${env:SAMPLE_ENV_VAR}
+  # These environment variables are made available to our functions
+  # under process.env.
+  environment:
+    tableName: !Ref TodosTable
+
+  # 'iamRoleStatements' defines the permission policy for the Lambda function.
+  # In this case Lambda functions are granted with permissions to access DynamoDB.
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Scan
+        - dynamodb:Query
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:DescribeTable
+      Resource:
+        - !GetAtt TodosTable.Arn
+        - !Sub "${TodosTable.Arn}/index/*"
 
 functions:
   hello:
@@ -30,6 +50,13 @@ functions:
       - http:
           path: hello
           method: get
+
+  create:
+    handler: functions/create.main
+    events:
+      - http:
+          path: notes
+          method: post
 
 resources:
   - ${file(resources/dynamodb.yml)}
