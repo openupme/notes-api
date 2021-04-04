@@ -72,6 +72,12 @@ functions:
           path: notes/{id}
           method: put
 
+  delete:
+    handler: functions/delete.main
+    events:
+      - http:
+          path: notes/{id}
+          method: delete
 
 resources:
   - ${file(resources/dynamodb.yml)}
