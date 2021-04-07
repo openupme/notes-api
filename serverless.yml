@@ -9,6 +9,7 @@ plugins:
   - serverless-bundle # Package our functions with Webpack
   - serverless-offline
   - serverless-dotenv-plugin # Load .env as environment variables
+  - serverless-appsync-plugin
 
 provider:
   name: aws
@@ -43,27 +44,19 @@ provider:
         - !GetAtt TodosTable.Arn
         - !Sub "${TodosTable.Arn}/index/*"
 
+custom:
+  appSync:
+    - ${file(api.yml)}
+
 functions:
   create:
     handler: functions/create.main
-    events:
-      - http:
-          path: notes
-          method: post
 
   get:
     handler: functions/get.main
-    events:
-      - http:
-          path: notes/{id}
-          method: get
 
   list:
     handler: functions/list.main
-    events:
-      - http:
-          path: notes
-          method: get
 
   update:
     handler: functions/update.main

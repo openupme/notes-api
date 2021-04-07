@@ -1,0 +1,26 @@
+type Note @aws_api_key {
+  userId: ID!
+  noteId: String!
+  content: String!
+  attachment: String!
+  createdAt: AWSTimestamp!
+}
+
+type NotesPage @aws_api_key {
+  notes: [Note!]!
+  nextToken: String
+}
+
+type Query {
+  getNote(noteId: String): Note
+  listNotes(limit: Int, offset: String): NotesPage!
+}
+
+type Mutation {
+  createNote(content: String, attachment: String): Note
+}
+
+schema {
+  query: Query
+  mutation: Mutation
+}

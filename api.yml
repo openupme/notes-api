@@ -1,0 +1,54 @@
+name: ${self:service}-${self:provider.stage}
+authenticationType: API_KEY
+
+apiKeys:
+  - name: test
+    description: Testing key
+
+# defaultMappingTemplates:
+#   request: invoke-and-forward-arguments-request-mapping-template.vtl
+#   response: return-lambda-result-response-mapping-template.vtl
+
+mappingTemplates:
+  - type: Query
+    field: listNotes
+    dataSource: listNotes
+    request: false
+    response: false
+
+  - type: Query
+    field: getNote
+    dataSource: getNote
+    request: false
+    response: false
+
+  - type: Mutation
+    field: createNote
+    dataSource: createNote
+    request: false
+    response: false
+
+dataSources:
+  - type: AWS_LAMBDA
+    name: listNotes
+    description: Lambda for listing notes
+    config:
+      functionName: list
+
+  - type: AWS_LAMBDA
+    name: getNote
+    description: Lambda for retrieving single note
+    config:
+      functionName: get
+
+  - type: AWS_LAMBDA
+    name: createNote
+    description: Lambda for creating single note
+    config:
+      functionName: create
+
+# xrayEnabled: true # Bool, Optional. Enable X-Ray. disabled by default.
+
+# tags: # Tags to be added to AppSync
+#  key1: value1
+#  key2: value2
